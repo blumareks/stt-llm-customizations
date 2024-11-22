@@ -1,0 +1,9 @@
+AUDIO_FILE=./Script2.mp3
+AUDIO_FILE2=./Script-3.mp3
+AUDIO_FILE3=./Script-1.mp3
+STT_APIKEY=
+STT_URL=https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/<instance_ID>
+STT_CORPORA=<your corpora id>
+WATSONX_IAM_API_KEY=<your IAM API KEY>
+WATSONX_IAM_API_URL=iam.cloud.ibm.com
+PROJECT_ID=<project_ID from watsonx.ai>
