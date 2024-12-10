@@ -46,7 +46,9 @@ speech_to_text = SpeechToTextV1(
 AUDIO_FILE = os.getenv("AUDIO_FILE")
 AUDIO_FILE2 = os.getenv("AUDIO_FILE2")
 AUDIO_FILE3 = os.getenv("AUDIO_FILE3")
-audioFiles = [AUDIO_FILE, AUDIO_FILE2, AUDIO_FILE3]
+AUDIO_FILE4 = os.getenv("AUDIO_FILE4")
+#audioFiles = [AUDIO_FILE, AUDIO_FILE2, AUDIO_FILE3, AUDIO_FILE4]
+audioFiles = [AUDIO_FILE4]
 
 corporaFiles = [corpora]
 
@@ -73,7 +75,8 @@ def main():
 
             speech_recognition_results = speech_to_text.recognize(
                 audio=audio_file,
-                content_type='audio/mp3',
+                #content_type='audio/mp3', #check the file extension and adapt to it
+                content_type='audio/wav',
                 model = 'en-US'#,
                 #language_customization_id=corporaFile
             ).get_result()
@@ -122,27 +125,18 @@ def main():
 
         genai_url = "https://us-south.ml.cloud.ibm.com/ml/v1/text/generation?version=2023-05-29"
 
+        ## summary use case
         body = {
-            "input": f"""Using the attached transcript without speaker names, create a transcript with speaker labels of the following conversation between a Doctor and Patient. 
-            Don't use their names, just stick to Doctor and Patient roles. 
-            Do not include any additional commentary. Figure out by the type of questions or answers who is a doctor, as they are going to ask or add the medical terms in their sentences. 
-            Do not adjust sentences to adapt to a speaker role, in such a case change a speaker to a doctor. 
-            Also abbrieviate typical uses like Mister to Mr. as appropriate also in similar situations.  \n\n
-        First transcript:\n\n
+            "input": f"""Instructions: 
+            You are a level 1 technical support that receives audio voicemails
+             to address technical issues and provide solutions
+             to the problem described in the voice message. 
+             Reference the transcript input and recommend step-by-step process on resolving the issue. 
+             Structure your step-by-step process according to this context
         {transcript_txt}
         \n\n
-
-        In the translation replace the following phrases with the medical correct ones like:
-        for example if there is 'status mig enosis', It should be: 'status migrainosus'
-        for example if there is 'cerebral venus thrombosis', it should be: 'cerebral venous thrombosis'
-        for example if there is 'abnormal venus drainage', it should be: 'normal venous drainage'
-        for example if there is 'sarah bella lesions', it should be: 'cerebellar lesions'
-        for example if there is 'heart attack' mentioned, don't change it to 'myocardial infarction'
-    
-
-
-        Transcript with speaker names:\n\n""",
-            "parameters": {# "decoding_method": "sample","temperature":0,"max_new_tokens": 8000, "top_k": 50, "top_p": 1,     "repetition_penalty": 1
+        Provide the step by step process here:\n\n""",
+            "parameters": {#                "decoding_method": "sample","temperature":0,"max_new_tokens": 8000, "top_k": 50, "top_p": 1,     "repetition_penalty": 1
                 "decoding_method": "greedy",
                 "max_new_tokens": 2000,
                 "stop_sequences": ["\\n\\n"],
@@ -151,6 +145,7 @@ def main():
             "model_id": "meta-llama/llama-3-1-70b-instruct",
             "project_id": wx_project_id
         }
+
 
         headers = {
             "Accept": "application/json",

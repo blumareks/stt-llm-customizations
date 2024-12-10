@@ -1,6 +1,8 @@
-AUDIO_FILE=./Script2.mp3
-AUDIO_FILE2=./Script-3.mp3
-AUDIO_FILE3=./Script-1.mp3
+AUDIO_FILE=./Script2.wav
+AUDIO_FILE2=./Script-3.wav
+AUDIO_FILE3=./Script-1.wav
+AUDIO_FILE3=./VoiceMessage.wav
+
 STT_APIKEY=
 STT_URL=https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/<instance_ID>
 STT_CORPORA=<your corpora id>
